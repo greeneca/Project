@@ -4,6 +4,7 @@ using System.Collections;
 public class MatTrigger : MonoBehaviour {
 	
 	public string SceneName;
+	public GUITexture fader;
 	
 	// Use this for initialization
 	void Start () {
@@ -16,6 +17,12 @@ public class MatTrigger : MonoBehaviour {
 	}
 	
 	void OnTriggerEnter() {
+		Instantiate(fader);
+		LoadLevel();
+	}
+	
+	IEnumerator LoadLevel() {
+		yield return new WaitForSeconds(2.0f);
 		Application.LoadLevel(SceneName);	
 	}
 }
