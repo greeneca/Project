@@ -18,11 +18,11 @@ public class MatTrigger : MonoBehaviour {
 	
 	void OnTriggerEnter() {
 		Instantiate(fader);
-		LoadLevel();
+		StartCoroutine("LoadLevel");
 	}
 	
 	IEnumerator LoadLevel() {
 		yield return new WaitForSeconds(2.0f);
-		Application.LoadLevel(SceneName);	
+		Application.LoadLevel(SceneName);
 	}
 }
