@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 
 public class FadIn : MonoBehaviour {
+	
+	public GameObject Gui;
 
 	// Use this for initialization
 	void Start () {
@@ -15,5 +17,9 @@ public class FadIn : MonoBehaviour {
 	
 	void DestroyMe() {
 		Destroy(gameObject);	
+	}
+	
+	void MakeGUI(){
+		Instantiate(Gui);
 	}
 }

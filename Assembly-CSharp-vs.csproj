@@ -49,6 +49,7 @@
      <Compile Include="Assets\Common Files\Scripts\FadIn.cs" />
      <Compile Include="Assets\Menu\Scripts\MakeBlue.cs" />
      <Compile Include="Assets\Menu\Scripts\MatTrigger.cs" />
+     <Compile Include="Assets\Menu\Scripts\Player.cs" />
      <Compile Include="Assets\Menu\Scripts\fader.cs" />
      <Compile Include="Assets\flags\Scripts\flagSetter.cs" />
      <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />

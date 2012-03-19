@@ -20,27 +20,22 @@ public class BoatswainCallQuestions : MonoBehaviour {
 	int questionNumber;
 	readonly int numberOfQuestions = 2;
 	bool[] questions;
+	int numCorrect;
 	
 	// Use this for initialization
 	void Start () {
 		playArea = new Rect(0, 0, Screen.width, Screen.height);
-		Debug.Log(playArea);
 		questionNumber = 0;
 		questions = new bool[numberOfQuestions];
 		for(int i = 0; i < numberOfQuestions; i++){
 			questions[i] = true;
 		}
+		numCorrect = 0;
 		textNorm = new Rect(text.x * playArea.width, text.y * playArea.height, text.width * playArea.width, text.height * playArea.height);
-		Debug.Log(textNorm);
 		button1Norm = new Rect(button1.x * playArea.width, button1.y * playArea.height, button1.width * playArea.width, button1.height * playArea.height);
-		Debug.Log(button1Norm);
 		button2Norm = new Rect(button2.x * playArea.width, button2.y * playArea.height, button2.width * playArea.width, button2.height * playArea.height);
-		Debug.Log(button2Norm);
 		button3Norm = new Rect(button3.x * playArea.width, button3.y * playArea.height, button3.width * playArea.width, button3.height * playArea.height);
-		Debug.Log(button3Norm);
 		button4Norm = new Rect(button4.x * playArea.width, button4.y * playArea.height, button4.width * playArea.width, button4.height * playArea.height);
-		Debug.Log(button4Norm);
-		
 	}
 	
 	// Update is called once per frame
@@ -58,7 +53,7 @@ public class BoatswainCallQuestions : MonoBehaviour {
 			Question("Test Question 2", "One", "Two", "Three", "Four", 2);
 			break;
 		default:
-			Question("There was a problem!", "One", "Two", "Three", "Four", 4);
+			Finish();
 			break;
 		}
 	}
@@ -67,32 +62,49 @@ public class BoatswainCallQuestions : MonoBehaviour {
 		GUI.BeginGroup(playArea);
 		GUI.Label(new Rect(textNorm), question);
 		if(GUI.Button(new Rect(button1Norm), one)){
-			if(correct == 1)
+			if(correct == 1){
 				questions[questionNumber] = true;
+				numCorrect++;
+			}
 			else
 				questions[questionNumber] = false;
 			questionNumber++;
 		}
 		if(GUI.Button(new Rect(button2Norm), two)){
-			if(correct == 2)
+			if(correct == 2){
 				questions[questionNumber] = true;
+				numCorrect++;
+			}
 			else
 				questions[questionNumber] = false;
 			questionNumber++;
 		}
 		if(GUI.Button(new Rect(button3Norm), three)){
-			if(correct == 3)
+			if(correct == 3){
 				questions[questionNumber] = true;
+				numCorrect++;
+			}
 			else
 				questions[questionNumber] = false;
 			questionNumber++;
 		}
 		if(GUI.Button(new Rect(button4Norm), four)){
-			if(correct == 4)
+			if(correct == 4){
 				questions[questionNumber] = true;
+				numCorrect++;
+			}
 			else
 				questions[questionNumber] = false;
 			questionNumber++;
+		}
+		GUI.EndGroup();
+	}
+	
+	void Finish(){
+		GUI.BeginGroup(playArea);
+		GUI.Label(new Rect(textNorm), "Put Stuff Here");
+		if(GUI.Button(new Rect(button4Norm), "OK")){
+			Application.LoadLevel("Menu");
 		}
 		GUI.EndGroup();
 	}
