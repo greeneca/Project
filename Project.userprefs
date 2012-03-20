@@ -6,9 +6,8 @@
       <File FileName="Assets\Menu\Scripts\fader.cs" Line="1" Column="1" />
       <File FileName="Assets\Menu\Scripts\MakeBlue.cs" Line="1" Column="1" />
       <File FileName="Assets\Menu\Scripts\MatTrigger.cs" Line="1" Column="1" />
-      <File FileName="Assets\Boatswain Call\Scripts\BoatswainCallQuestions.cs" Line="156" Column="41" />
-      <File FileName="Assets\Menu\Scripts\Player.cs" Line="1" Column="1" />
-      <File FileName="Assets\flags\Scripts\flagSetter.cs" Line="33" Column="34" />
+      <File FileName="Assets\Boatswain Call\Scripts\BoatswainCallQuestions.cs" Line="1" Column="1" />
+      <File FileName="Assets\flags\Scripts\flagSetter.cs" Line="44" Column="20" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
