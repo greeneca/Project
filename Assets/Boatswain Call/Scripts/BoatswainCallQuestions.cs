@@ -20,7 +20,8 @@ public class BoatswainCallQuestions : MonoBehaviour {
 	
 	//Question state
 	int questionNumber;
-	readonly int numberOfQuestions = 2;
+	int lastQuestion;
+	readonly int numberOfQuestions = 4;
 	bool[] questions;
 	int numCorrect;
 	
@@ -30,14 +31,13 @@ public class BoatswainCallQuestions : MonoBehaviour {
 	public AudioClip side;
 	public AudioClip carryon;
 	private GameObject boatswainCall;
-	private bool clipPlayed;
 	
 	// Use this for initialization
 	void Start () {
-		clipPlayed = false;
 		boatswainCall = GameObject.Find("Bosn Call");
 		playArea = new Rect(0, 0, Screen.width, Screen.height);
 		questionNumber = 0;
+		lastQuestion = -1;
 		questions = new bool[numberOfQuestions];
 		for(int i = 0; i < numberOfQuestions; i++){
 			questions[i] = true;
@@ -59,32 +59,36 @@ public class BoatswainCallQuestions : MonoBehaviour {
  		GUI.skin = menuSkin; 
 		switch(questionNumber){
 		case 0:
-			Question("Question 1:\nWhat is the following call?", "The Still", "The Side", "The Carry On", "The General Call", 2);
-			if(!clipPlayed){
+			Debug.Log("Showing Question 1");
+			if(lastQuestion < questionNumber){
 				StartCoroutine("PlayClipSide");
-				clipPlayed = true;
+				lastQuestion = questionNumber;
 			}
+			Question("Question 1:\nWhat is the following call?(Side)", "The Still", "The Side", "The Carry On", "The General Call", 2);
 			break;
 		case 1:
-			Question("Question 2:\nWhat is the following call?", "The Still", "The Side", "The Carry On", "The General Call", 4);
-			if(!clipPlayed){
+			Debug.Log("Showing Question 2");
+			if(lastQuestion < questionNumber){
 				StartCoroutine("PlayClipGeneral");
-				clipPlayed = true;
+				lastQuestion = questionNumber;
 			}
+			Question("Question 2:\nWhat is the following call?(Gen)", "The Still", "The Side", "The Carry On", "The General Call", 4);
 			break;
 		case 2:
-			Question("Question 3:\nWhat is the following call?", "The Still", "The Side", "The Carry On", "The General Call", 1);
-			if(!clipPlayed){
+			Debug.Log("Showing Question 3");
+			if(lastQuestion < questionNumber){
 				StartCoroutine("PlayClipStill");
-				clipPlayed = true;
+				lastQuestion = questionNumber;
 			}
+			Question("Question 3:\nWhat is the following call?(Still)", "The Still", "The Side", "The Carry On", "The General Call", 1);
 			break;
 		case 3:
-			Question("Question 4:\nWhat is the following call?", "The Still", "The Side", "The Carry On", "The General Call", 3);
-			if(!clipPlayed){
+			Debug.Log("Showing Question 4");
+			if(lastQuestion < questionNumber){
 				StartCoroutine("PlayClipCarryOn");
-				clipPlayed = true;
+				lastQuestion = questionNumber;
 			}
+			Question("Question 4:\nWhat is the following call?(Carry)", "The Still", "The Side", "The Carry On", "The General Call", 3);
 			break;
 		default:
 			Finish();
@@ -103,17 +107,14 @@ public class BoatswainCallQuestions : MonoBehaviour {
 			else
 				questions[questionNumber] = false;
 			questionNumber++;
-			clipPlayed = false;
 		}
 		if(GUI.Button(new Rect(button2Norm), two)){
 			if(correct == 2){
 				questions[questionNumber] = true;
-				numCorrect++;
 			}
 			else
 				questions[questionNumber] = false;
 			questionNumber++;
-			clipPlayed = false;
 		}
 		if(GUI.Button(new Rect(button3Norm), three)){
 			if(correct == 3){
@@ -123,7 +124,6 @@ public class BoatswainCallQuestions : MonoBehaviour {
 			else
 				questions[questionNumber] = false;
 			questionNumber++;
-			clipPlayed = false;
 		}
 		if(GUI.Button(new Rect(button4Norm), four)){
 			if(correct == 4){
@@ -133,7 +133,6 @@ public class BoatswainCallQuestions : MonoBehaviour {
 			else
 				questions[questionNumber] = false;
 			questionNumber++;
-			clipPlayed = false;
 		}
 		GUI.EndGroup();	
 		
@@ -141,7 +140,7 @@ public class BoatswainCallQuestions : MonoBehaviour {
 	
 	void Finish(){
 		GUI.BeginGroup(playArea);
-		GUI.Label(new Rect(textNorm), "Put Stuff Here");
+		GUI.Label(new Rect(textNorm), "You got "+numCorrect+" correct and "+(numberOfQuestions - numCorrect)+" wrong.");
 		if(GUI.Button(new Rect(button4Norm), "OK")){
 			Application.LoadLevel("Menu");
 		}
@@ -149,18 +148,22 @@ public class BoatswainCallQuestions : MonoBehaviour {
 	}
 	
 	IEnumerator PlayClipSide(){
+		Debug.Log("Playing Side");
 		yield return new WaitForSeconds(0.5f);
 		boatswainCall.audio.PlayOneShot(side);
 	}
 	IEnumerator PlayClipGeneral(){
+		Debug.Log("Playing gen");
 		yield return new WaitForSeconds(0.5f);
 		boatswainCall.audio.PlayOneShot(general);
 	}
 	IEnumerator PlayClipStill(){
+		Debug.Log("Playing still");
 		yield return new WaitForSeconds(0.5f);
 		boatswainCall.audio.PlayOneShot(still);
 	}
 	IEnumerator PlayClipCarryOn(){
+		Debug.Log("Playing carryon");
 		yield return new WaitForSeconds(0.5f);
 		boatswainCall.audio.PlayOneShot(carryon);
 	}
