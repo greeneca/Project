@@ -98,7 +98,7 @@ public class flagSetter : MonoBehaviour {
 	
 	void OnGUI(){
  		GUI.skin = menuSkin; 
-		if(questionNumber <= 10)	
+		if(questionNumber <= numberOfQuestions)	
 			Question("What is the raised flag?", answers[0], answers[1], answers[2], answers[3], correct);
 		else
 			Finish();
@@ -153,7 +153,7 @@ public class flagSetter : MonoBehaviour {
 	
 	void Finish(){
 		GUI.BeginGroup(playArea);
-		int numbWrong = 10 - numCorrect;
+		int numbWrong = numberOfQuestions - numCorrect;
 		GUI.Label(new Rect(textNorm), "Number correct: " + numCorrect + "\nNumber Wrong: " + numbWrong);
 		if(GUI.Button(new Rect(button4Norm), "OK")){
 			Application.LoadLevel("Menu");
