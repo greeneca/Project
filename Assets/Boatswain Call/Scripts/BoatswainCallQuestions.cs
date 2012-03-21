@@ -3,6 +3,8 @@ using System.Collections;
 
 public class BoatswainCallQuestions : MonoBehaviour {
 	
+	public GUITexture checkmark;
+	
 	//GUI Stuff
 	public AudioClip beep;
 	public GUISkin menuSkin;
@@ -11,11 +13,13 @@ public class BoatswainCallQuestions : MonoBehaviour {
 	public Rect button2;
 	public Rect button3;
 	public Rect button4;
+	public Rect buttonQuit;
 	private Rect textNorm;
 	private Rect button1Norm;
 	private Rect button2Norm;
 	private Rect button3Norm;
 	private Rect button4Norm;
+	private Rect buttonQuitNorm;
 	private Rect playArea;
 	
 	//Question state
@@ -48,6 +52,7 @@ public class BoatswainCallQuestions : MonoBehaviour {
 		button2Norm = new Rect(button2.x * playArea.width, button2.y * playArea.height, button2.width * playArea.width, button2.height * playArea.height);
 		button3Norm = new Rect(button3.x * playArea.width, button3.y * playArea.height, button3.width * playArea.width, button3.height * playArea.height);
 		button4Norm = new Rect(button4.x * playArea.width, button4.y * playArea.height, button4.width * playArea.width, button4.height * playArea.height);
+		buttonQuitNorm = new Rect(buttonQuit.x * playArea.width, buttonQuit.y * playArea.height, buttonQuit.width * playArea.width, buttonQuit.height * playArea.height);
 	}
 	
 	// Update is called once per frame
@@ -100,6 +105,7 @@ public class BoatswainCallQuestions : MonoBehaviour {
 		GUI.BeginGroup(playArea);
 		GUI.Label(new Rect(textNorm), question);
 		if(GUI.Button(new Rect(button1Norm), one)){
+			audio.PlayOneShot(beep);
 			if(correct == 1){
 				questions[questionNumber] = true;
 				numCorrect++;
@@ -109,14 +115,17 @@ public class BoatswainCallQuestions : MonoBehaviour {
 			questionNumber++;
 		}
 		if(GUI.Button(new Rect(button2Norm), two)){
+			audio.PlayOneShot(beep);
 			if(correct == 2){
 				questions[questionNumber] = true;
+				numCorrect++;
 			}
 			else
 				questions[questionNumber] = false;
 			questionNumber++;
 		}
 		if(GUI.Button(new Rect(button3Norm), three)){
+			audio.PlayOneShot(beep);
 			if(correct == 3){
 				questions[questionNumber] = true;
 				numCorrect++;
@@ -126,6 +135,7 @@ public class BoatswainCallQuestions : MonoBehaviour {
 			questionNumber++;
 		}
 		if(GUI.Button(new Rect(button4Norm), four)){
+			audio.PlayOneShot(beep);
 			if(correct == 4){
 				questions[questionNumber] = true;
 				numCorrect++;
@@ -133,6 +143,10 @@ public class BoatswainCallQuestions : MonoBehaviour {
 			else
 				questions[questionNumber] = false;
 			questionNumber++;
+		}
+		if(GUI.Button(new Rect(buttonQuitNorm), "Quit")){
+			audio.PlayOneShot(beep);
+			Application.LoadLevel("Menu");
 		}
 		GUI.EndGroup();	
 		
@@ -142,6 +156,7 @@ public class BoatswainCallQuestions : MonoBehaviour {
 		GUI.BeginGroup(playArea);
 		GUI.Label(new Rect(textNorm), "You got "+numCorrect+" correct and "+(numberOfQuestions - numCorrect)+" wrong.");
 		if(GUI.Button(new Rect(button4Norm), "OK")){
+			audio.PlayOneShot(beep);
 			Application.LoadLevel("Menu");
 		}
 		GUI.EndGroup();
