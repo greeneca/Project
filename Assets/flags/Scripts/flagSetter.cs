@@ -27,7 +27,7 @@ public class flagSetter : MonoBehaviour {
 	private Rect button3Norm;
 	private Rect button4Norm;
 	private Rect playArea;
-	private int correct = 0;
+	private int correctAnswer = -1;
 	
 	//Question state
 	int questionNumber;
@@ -51,7 +51,7 @@ public class flagSetter : MonoBehaviour {
 		int x = r.Next() % 4;
 		Debug.Log(x);
 		answers[x] = flagnames[n];
-		correct = x;
+		correctAnswer = x;
 		Debug.Log(answers[x]);
 		
 	    for (int i = 0; i <= 3; i++)
@@ -62,7 +62,12 @@ public class flagSetter : MonoBehaviour {
 			if(answers[i].Equals(""))
 			{
 				answers[i] = flagnames[k];
-				//Debug.Log(answers[i]);
+				while((i != 0 && answers[i].Equals(answers[0])) || (i != 1 && answers[i].Equals(answers[1])) || (i != 2 && answers[i].Equals(answers[2])) || (i != 3 && answers[i].Equals(answers[3])))
+				{
+					k = r.Next() % 26;
+					answers[i] = flagnames[k];
+					
+				}
 				
 			}
 			
@@ -93,15 +98,19 @@ public class flagSetter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	renderer.material.SetTexture("_MainTex", flagGUI);
+		renderer.material.SetTexture("_MainTex", flagGUI);
 	}
 	
 	void OnGUI(){
  		GUI.skin = menuSkin; 
-		if(questionNumber <= numberOfQuestions)	
-			Question("What is the raised flag?", answers[0], answers[1], answers[2], answers[3], correct);
-		else
+		if(questionNumber <= numberOfQuestions)	{
+			Question("What is the raised flag?", answers[0], answers[1], answers[2], answers[3], correctAnswer);
+			
+		}
+		else {
+			
 			Finish();
+		}
 		
 	}
 	
@@ -111,40 +120,48 @@ public class flagSetter : MonoBehaviour {
 		GUI.BeginGroup(playArea);
 		GUI.Label(new Rect(textNorm), question);
 		if(GUI.Button(new Rect(button1Norm), one)){
+			if(correct == 0){
+				
+				numCorrect++;
+			}
+			
+			if(questionNumber <= numberOfQuestions){
+				buildQuestion();
+				questionNumber++;
+			}
+			
+		}
+		if(GUI.Button(new Rect(button2Norm), two)){
 			if(correct == 1){
 				
 				numCorrect++;
 			}
-			buildQuestion();
-			questionNumber++;
+			if(questionNumber <= numberOfQuestions){
+				buildQuestion();
+				questionNumber++;
+			}
 			
 		}
-		if(GUI.Button(new Rect(button2Norm), two)){
+		if(GUI.Button(new Rect(button3Norm), three)){
 			if(correct == 2){
 				
 				numCorrect++;
 			}
-			buildQuestion();
-			questionNumber++;
-			
+			if(questionNumber <= numberOfQuestions){
+				buildQuestion();
+				questionNumber++;
+			}
 		}
-		if(GUI.Button(new Rect(button3Norm), three)){
+		if(GUI.Button(new Rect(button4Norm), four)){
 			if(correct == 3){
 				
 				numCorrect++;
-			}
-	
-			buildQuestion();
-			questionNumber++;
-		}
-		if(GUI.Button(new Rect(button4Norm), four)){
-			if(correct == 4){
-				
-				numCorrect++;
 				
 			}
-			buildQuestion();
-			questionNumber++;
+			if(questionNumber <= numberOfQuestions){
+				buildQuestion();
+				questionNumber++;
+			}
 			
 		}
 		GUI.EndGroup();	
@@ -154,7 +171,7 @@ public class flagSetter : MonoBehaviour {
 	void Finish(){
 		GUI.BeginGroup(playArea);
 		int numbWrong = numberOfQuestions - numCorrect;
-		GUI.Label(new Rect(textNorm), "Number correct: " + numCorrect + "\nNumber Wrong: " + numbWrong);
+		GUI.Label(new Rect(textNorm), "Number correct: " + numCorrect + "\nNumber Wrong: " + numbWrong + "\nNumber asked: " + questionNumber + "\nNumber supposed to be asked: " + numberOfQuestions );
 		if(GUI.Button(new Rect(button4Norm), "OK")){
 			Application.LoadLevel("Menu");
 		}
