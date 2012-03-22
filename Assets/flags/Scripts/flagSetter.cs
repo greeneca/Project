@@ -3,6 +3,8 @@ using System.Collections;
 using System;
 public class flagSetter : MonoBehaviour {
 	
+	public readonly int stationID = 5;
+	
 	// HUD
 	public Texture2D[] flags;
 	//public GUITexture flagGUI;
