@@ -3,6 +3,9 @@ using System.Collections;
 using System;
 public class flagSetter : MonoBehaviour {
 	
+	public GUITexture checkmark;
+	public GUITexture xmark;
+	
 	// HUD
 	public Texture2D[] flags;
 	//public GUITexture flagGUI;
@@ -125,17 +128,19 @@ public class flagSetter : MonoBehaviour {
 	void Question(string question, string one, string two, string three, string four, int correct){
 		GUI.BeginGroup(playArea);
 		GUI.Label(new Rect(textNorm), question);
+		bool right = false;
 		if(GUI.Button(new Rect(button1Norm), one)){
 			if(correct == 0){
 				
 				numCorrect++;
+				right = true;
 				
 			}
-			
+			StartCoroutine("showFeedBack",right);
 			if(questionNumber <= numberOfQuestions){
 				answerText = answers[correct];
 				buildQuestion();
-				questionNumber++;
+				//questionNumber++;
 				
 			}
 			
@@ -144,12 +149,14 @@ public class flagSetter : MonoBehaviour {
 			if(correct == 1){
 				
 				numCorrect++;
+				right = true;
 				
 			}
+			StartCoroutine("showFeedBack",right);
 			if(questionNumber <= numberOfQuestions){
 				answerText = answers[correct];
 				buildQuestion();
-				questionNumber++;
+				//questionNumber++;
 			}
 			
 		}
@@ -157,25 +164,29 @@ public class flagSetter : MonoBehaviour {
 			if(correct == 2){
 				
 				numCorrect++;
+				right = true;
 			
 			}
+			StartCoroutine("showFeedBack",right);
 			if(questionNumber <= numberOfQuestions){
 				answerText = answers[correct];
 				buildQuestion();
-				questionNumber++;
+				//questionNumber++;
 			}
 		}
 		if(GUI.Button(new Rect(button4Norm), four)){
 			if(correct == 3){
 				
 				numCorrect++;
+				right = true;
 				
 				
 			}
+			StartCoroutine("showFeedBack",right);
 			if(questionNumber <= numberOfQuestions){
 				answerText = answers[correct];
 				buildQuestion();
-				questionNumber++;
+				//questionNumber++;
 			}
 			
 		}
@@ -191,6 +202,17 @@ public class flagSetter : MonoBehaviour {
 			Application.LoadLevel("Menu");
 		}
 		GUI.EndGroup();
+	}
+	
+	IEnumerator showFeedBack(bool correct){
+		if(correct){
+			Instantiate(checkmark);
+		}
+		else{
+			Instantiate(xmark);
+		}
+		yield return new WaitForSeconds(1.5f);
+		questionNumber++;
 	}
 }
 
