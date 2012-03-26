@@ -5,8 +5,9 @@ public class Player : MonoBehaviour {
 	
 	static Vector3 position = new Vector3(0, 0, 0);
 	public readonly int stations = 6;
-	public bool[] stationStatus;
-	public int[] stationScore;
+	public static bool[] stationStatus;
+	public static int[] stationScore;
+	
 	
 	// Use this for initialization
 	void Start () {	
@@ -17,6 +18,8 @@ public class Player : MonoBehaviour {
 			Debug.Log(position);
 		}		
 		//initialize stations
+		stationStatus = new bool[stations];
+		stationScore = new int[stations];
 		for(int i = 0; i < stations; i++){
 			stationStatus[i] = false;
 			stationScore[i] = -1;

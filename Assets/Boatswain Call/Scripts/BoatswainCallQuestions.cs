@@ -198,16 +198,14 @@ public class BoatswainCallQuestions : MonoBehaviour {
 		if(numCorrect < passNumber){
 			response = "You answered "+numCorrect+" correct and "+(numberOfQuestions - numCorrect)+" incorrect.\n\nYou need "+
 				passNumber+ " to pass this station. Good luck next time.";
-			GameObject player = GameObject.Find("Player");
-			player.stationStatus[stationID] = false;
-			player.stationScore[stationID] = numCorrect;
+			Player.stationStatus[stationID] = false;
+			Player.stationScore[stationID] = numCorrect;
 		}
 		else{
 			response = "You answered "+numCorrect+" correct and "+(numberOfQuestions - numCorrect)+" incorrect.\n\nYou passed " +
 				"this station. Good job!!";
-			GameObject player = GameObject.Find("Player");
-			player.stationStatus[stationID] = true;
-			player.stationScore[stationID] = numCorrect;
+			Player.stationStatus[stationID] = true;
+			Player.stationScore[stationID] = numCorrect;
 		}
 		GUI.Label(new Rect(textNorm), response);
 		if(GUI.Button(new Rect(button4Norm), "OK")){
