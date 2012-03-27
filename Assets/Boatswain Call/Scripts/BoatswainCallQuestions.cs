@@ -48,9 +48,12 @@ public class BoatswainCallQuestions : MonoBehaviour {
 	//Style for labels
 	private GUIStyle style = new GUIStyle();
 	
+	private bool doOnce;
+	
 	
 	// Use this for initialization
 	void Start () {		
+		doOnce = true;
 		//init question vars
 		questionNumber = 0;
 		lastQuestion = -1;
@@ -99,7 +102,7 @@ public class BoatswainCallQuestions : MonoBehaviour {
 			Question("Question 3:\nName the following call?", "The Still", "The Side", "The Carry On", "The General Call", 1);
 			break;
 		case 3:
-			Question("Question 4:\nWhat is the proper response upon\n\thearing the general call?\n\nA - Stop what you are doing " +
+			Question("Question 4:\nWhat is the proper response upon\n\thearing the still?\n\nA - Stop what you are doing " +
 			 	"and\n\tlisten for orders.\nB - Adopt the position of attention and\n\tlisten for instructions.\nC - Continue with " +
 			 	"given orders or\n\tinstructions.\nD - Preform the proper forms of\n\trespect to the diginatires.", "A", "B", "C", "D", 2);
 			break;
@@ -112,7 +115,7 @@ public class BoatswainCallQuestions : MonoBehaviour {
 			Question("Question 5:\nName the following call?", "The Still", "The Side", "The Carry On", "The General Call", 3);
 			break;
 		case 5:
-			Question("Question 6:\nWhat is the proper response upon\n\thearing the general call?\n\nA - Stop what you are doing " +
+			Question("Question 6:\nWhat is the proper response upon\n\thearing the carry on?\n\nA - Stop what you are doing " +
 			 	"and\n\tlisten for orders.\nB - Adopt the position of attention and\n\tlisten for instructions.\nC - Continue with " +
 			 	"given orders or\n\tinstructions.\nD - Preform the proper forms of\n\trespect to the diginatires.", "A", "B", "C", "D", 3);
 			break;
@@ -122,10 +125,10 @@ public class BoatswainCallQuestions : MonoBehaviour {
 				StartCoroutine("PlayClip", side);
 				lastQuestion = questionNumber;
 			}
-			Question("Question 7 (BONUS):\nWName the following call?", "The Still", "The Side", "The Carry On", "The General Call", 2);
+			Question("Question 7 (BONUS):\nName the following call?", "The Still", "The Side", "The Carry On", "The General Call", 2);
 			break;
 		case 7:
-			Question("Question 6 (BONUS):\nWhat is the proper response upon\n\thearing the general call?\n\nA - Stop what you are doing " +
+			Question("Question 6 (BONUS):\nWhat is the proper response upon\n\thearing the side?\n\nA - Stop what you are doing " +
 			 	"and\n\tlisten for orders.\nB - Adopt the position of attention and\n\tlisten for instructions.\nC - Continue with " +
 			 	"given orders or\n\tinstructions.\nD - Preform the proper forms of\n\trespect to the diginatires.", "A", "B", "C", "D", 4);
 			break;
@@ -195,19 +198,28 @@ public class BoatswainCallQuestions : MonoBehaviour {
 	void Finish(){
 		GUI.BeginGroup(playArea);
 		string response;
+		
 		if(numCorrect < passNumber){
 			response = "You answered "+numCorrect+" correct and "+(numberOfQuestions - numCorrect)+" incorrect.\n\nYou need "+
 				passNumber+ " to pass this station. Good luck next time.";
-			Player.stationStatus[stationID] = false;
-			Player.stationScore[stationID] = numCorrect;
+			if(doOnce){
+				Player.stationStatus[stationID] = false;
+				Player.stationScore[stationID] = numCorrect;
+			}
 		}
 		else{
 			response = "You answered "+numCorrect+" correct and "+(numberOfQuestions - numCorrect)+" incorrect.\n\nYou passed " +
 				"this station. Good job!!";
-			Player.stationStatus[stationID] = true;
-			Player.stationScore[stationID] = numCorrect;
+			if(doOnce){
+				Player.stationStatus[stationID] = true;
+				Player.stationScore[stationID] = numCorrect;
+			}
 		}
-		GUI.Label(new Rect(textNorm), response);
+		if(doOnce){
+			doOnce = false;
+			//Debug.Log("Finished "+Player.stationStatus[stationID]);
+		}
+		GUI.Label(new Rect(textNorm), response, style);
 		if(GUI.Button(new Rect(button4Norm), "OK")){
 			audio.PlayOneShot(beep);
 			Application.LoadLevel("Menu");
