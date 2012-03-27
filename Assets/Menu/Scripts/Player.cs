@@ -4,14 +4,23 @@ using System.Collections;
 public class Player : MonoBehaviour {
 	
 	static Vector3 position = new Vector3(0, 0, 0);
+	public readonly int stations = 6;
+	public bool[] stationStatus;
+	public int[] stationScore;
 	
 	// Use this for initialization
 	void Start () {	
+		//reset position
 		if(position.x != 0 && position.y != 0 && position.z != 0){
 			transform.position = position;
 			transform.Translate(new Vector3(0, 0, -10));
 			Debug.Log(position);
 		}		
+		//initialize stations
+		for(int i = 0; i < stations; i++){
+			stationStatus[i] = false;
+			stationScore[i] = -1;
+		}
 	}
 	
 	// Update is called once per frame

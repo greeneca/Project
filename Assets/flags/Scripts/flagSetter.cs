@@ -5,6 +5,7 @@ public class flagSetter : MonoBehaviour {
 	
 	public GUITexture checkmark;
 	public GUITexture xmark;
+	public readonly int stationID = 5;
 	
 	// HUD
 	public Texture2D[] flags;
