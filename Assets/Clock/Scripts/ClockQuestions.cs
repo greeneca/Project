@@ -48,7 +48,7 @@ public class ClockQuestions : MonoBehaviour {
 	private GameObject hourArm;
 	private float minArmAngle;
 	private float hourArmAngle;
-	private readonly float smooth = 0.1f;
+	private readonly float smooth = 0.01f;
 	private readonly float angleTollerance = 10.0f;
 	
 	//plate
@@ -89,11 +89,22 @@ public class ClockQuestions : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//move min arm
+		float rot = Mathf.LerpAngle(minArm.transform.eulerAngles.x, minArmAngle, Time.time*smooth);
+		Vector3 angle = new Vector3(rot, 110, 0);
+		minArm.transform.eulerAngles = angle;
+		//moce hour arm
+		rot = Mathf.LerpAngle(hourArm.transform.eulerAngles.x, hourArmAngle, Time.time*smooth);
+		angle.x = rot;
+		hourArm.transform.eulerAngles = angle;
+		
+		/*
+		//move min arm
 		Vector3 angle = new Vector3(minArmAngle, 110, 0);
 		minArm.transform.eulerAngles = angle;
 		//moce hour arm
 		angle.x = hourArmAngle;
 		hourArm.transform.eulerAngles = angle;
+		*/
 	}
 	
 	void OnGUI(){
