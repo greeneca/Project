@@ -26,8 +26,8 @@ public class GUIScript : MonoBehaviour {
 		scoreNorm = new Rect(score.x * playArea.width, score.y * playArea.height, score.width * playArea.width, score.height * playArea.height);
 		buttonQuitNorm = new Rect(buttonQuit.x * playArea.width, buttonQuit.y * playArea.height, buttonQuit.width * playArea.width, buttonQuit.height * playArea.height);
 		//init style
-		style.fontSize = 15;
-		style.normal.textColor = Color.black;
+		style.fontSize = 18;
+		style.normal.textColor = Color.red;
 		//init station text
 		showText = false;
 		stationText = "";
@@ -39,7 +39,7 @@ public class GUIScript : MonoBehaviour {
 	}
 	
 	void OnGUI(){
-		string scoreText = Player.stationsComplete()+"/"+Player.stations+" stations complete.";
+		string scoreText = Player.stationsComplete()+"/"+Player.stations+" Complete";
 		GUI.skin = menuSkin; 
 		GUI.BeginGroup(playArea);
 		//Station Text
