@@ -88,6 +88,7 @@ public class ClockQuestions : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		/*
 		//move min arm
 		float rot = Mathf.LerpAngle(minArm.transform.eulerAngles.x, minArmAngle, Time.time*smooth);
 		Vector3 angle = new Vector3(rot, 110, 0);
@@ -96,15 +97,16 @@ public class ClockQuestions : MonoBehaviour {
 		rot = Mathf.LerpAngle(hourArm.transform.eulerAngles.x, hourArmAngle, Time.time*smooth);
 		angle.x = rot;
 		hourArm.transform.eulerAngles = angle;
+		*/
 		
-		/*
+		
 		//move min arm
 		Vector3 angle = new Vector3(minArmAngle, 110, 0);
 		minArm.transform.eulerAngles = angle;
 		//moce hour arm
 		angle.x = hourArmAngle;
 		hourArm.transform.eulerAngles = angle;
-		*/
+		
 	}
 	
 	void OnGUI(){
