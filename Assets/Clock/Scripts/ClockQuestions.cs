@@ -1,10 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-public class BoatswainCallQuestions : MonoBehaviour {
-	
+public class ClockQuestions : MonoBehaviour {
+
 	//station UID
-	public readonly int stationID = 1;
+	public readonly int stationID = 3;
 	
 	//Feedback
 	public GUITexture checkmark;
@@ -32,27 +32,34 @@ public class BoatswainCallQuestions : MonoBehaviour {
 	//Question state
 	int questionNumber;
 	int lastQuestion;
-	readonly int numberOfQuestions = 8;
-	readonly int passNumber = 5;
+	readonly int numberOfQuestions = 10;
+	readonly int passNumber = 7;
 	int numCorrect;
-	
-	//Bosn Calls
-	public AudioClip still;
-	public AudioClip general;
-	public AudioClip side;
-	public AudioClip carryon;
-	
-	//public GameObject pipe;
 	
 	//Style for labels
 	private GUIStyle style = new GUIStyle();
 	
+	//Locks
 	private bool doOnce;
 	private bool isLocked;
 	
+	//Arms
+	private GameObject minArm;
+	private GameObject hourArm;
+	private float minArmAngle;
+	private float hourArmAngle;
+	private readonly float smooth = 0.01f;
+	private readonly float angleTollerance = 10.0f;
 	
+	//plate
+	public Texture2D am;
+	public Texture2D pm;
+	public Texture2D blank;
+	private GameObject APMplate;
+		
 	// Use this for initialization
 	void Start () {		
+		//init locks
 		doOnce = true;
 		isLocked = false;
 		//init question vars
@@ -70,70 +77,119 @@ public class BoatswainCallQuestions : MonoBehaviour {
 		buttonQuitNorm = new Rect(buttonQuit.x * playArea.width, buttonQuit.y * playArea.height, buttonQuit.width * playArea.width, buttonQuit.height * playArea.height);
 		//init style
 		style.fontSize = 18;
-		style.normal.textColor = Color.black;
+		style.normal.textColor = Color.white;
+		//init arms
+		minArm = GameObject.Find("ClockArmMin");
+		hourArm = GameObject.Find("ClockArmHour");
+		APMplate = GameObject.Find("APMplate");
+		minArmAngle = 90.0f;
+		hourArmAngle = 270.0f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		//move min arm
+		float rot = Mathf.LerpAngle(minArm.transform.eulerAngles.x, minArmAngle, Time.time*smooth);
+		Vector3 angle = new Vector3(rot, 110, 0);
+		minArm.transform.eulerAngles = angle;
+		//moce hour arm
+		rot = Mathf.LerpAngle(hourArm.transform.eulerAngles.x, hourArmAngle, Time.time*smooth);
+		angle.x = rot;
+		hourArm.transform.eulerAngles = angle;
+		
+		/*
+		//move min arm
+		Vector3 angle = new Vector3(minArmAngle, 110, 0);
+		minArm.transform.eulerAngles = angle;
+		//moce hour arm
+		angle.x = hourArmAngle;
+		hourArm.transform.eulerAngles = angle;
+		*/
 	}
 	
 	void OnGUI(){
  		GUI.skin = menuSkin; 
 		switch(questionNumber){
-		case 0:
-			//General Call
+		case 0://---------------------------------------------------Need AM/PM
 			if(lastQuestion < questionNumber){
-				StartCoroutine("PlayClip", general);
+				StartCoroutine(SetArms(13, 30));
+				APMplate.renderer.material.SetTexture("_MainTex", pm);
 				lastQuestion = questionNumber;
 			}
-			Question("Question 1:\nName the following call?", "The Still", "The Side", "The Carry On", "The General Call", 4);
+			Question("Question 1:\nWhat is the displayed time in the\n24-hour clock?", "1230h", "1330h", "1300h", "1100h", 2);
 			break;
 		case 1:
-			Question("Question 2:\nWhat is the proper response upon\n\thearing the general call?\n\nA - Stop what you are doing " +
-			 	"and\n\tlisten for orders.\nB - Adopt the position of attention and\n\tlisten for instructions.\nC - Continue with " +
-			 	"given orders or\n\tinstructions.\nD - Preform the proper forms of\n\trespect to the diginatires.", "A", "B", "C", "D", 1);
+			if(lastQuestion < questionNumber){
+				StartCoroutine(SetArms(20, 55));
+				APMplate.renderer.material.SetTexture("_MainTex", pm);
+				lastQuestion = questionNumber;
+			}
+			Question("Question 1:\nWhat is the displayed time in the\n24-hour clock?", "0855h", "2035h", "0825h", "2055h", 4);
 			break;
 		case 2:
-			//The Still
 			if(lastQuestion < questionNumber){
-				StartCoroutine("PlayClip", still);
+				StartCoroutine(SetArms(1, 20));
+				APMplate.renderer.material.SetTexture("_MainTex", am);
 				lastQuestion = questionNumber;
 			}
-			Question("Question 3:\nName the following call?", "The Still", "The Side", "The Carry On", "The General Call", 1);
+			Question("Question 1:\nWhat is the displayed time in the\n24-hour clock?", "0140h", "1320h", "0120h", "1200h", 3);
 			break;
 		case 3:
-			Question("Question 4:\nWhat is the proper response upon\n\thearing the still?\n\nA - Stop what you are doing " +
-			 	"and\n\tlisten for orders.\nB - Adopt the position of attention and\n\tlisten for instructions.\nC - Continue with " +
-			 	"given orders or\n\tinstructions.\nD - Preform the proper forms of\n\trespect to the diginatires.", "A", "B", "C", "D", 2);
+			if(lastQuestion < questionNumber){
+				StartCoroutine(SetArms(6, 45));
+				APMplate.renderer.material.SetTexture("_MainTex", am);
+				lastQuestion = questionNumber;
+			}
+			Question("Question 1:\nWhat is the displayed time in the\n24-hour clock?", "0645h", "1845h", "1940h", "0700h", 1);
 			break;
 		case 4:
-			// The Carry On
 			if(lastQuestion < questionNumber){
-				StartCoroutine("PlayClip", carryon);
+				StartCoroutine(SetArms(18, 15));
+				APMplate.renderer.material.SetTexture("_MainTex", pm);
 				lastQuestion = questionNumber;
 			}
-			Question("Question 5:\nName the following call?", "The Still", "The Side", "The Carry On", "The General Call", 3);
+			Question("Question 1:\nWhat is the displayed time in the\n24-hour clock?", "0515h", "0615h", "0710h", "1815h", 4);
 			break;
-		case 5:
-			Question("Question 6:\nWhat is the proper response upon\n\thearing the carry on?\n\nA - Stop what you are doing " +
-			 	"and\n\tlisten for orders.\nB - Adopt the position of attention and\n\tlisten for instructions.\nC - Continue with " +
-			 	"given orders or\n\tinstructions.\nD - Preform the proper forms of\n\trespect to the diginatires.", "A", "B", "C", "D", 3);
+		case 5://----------------------------------------------------Do more for these questions?
+			if(lastQuestion < questionNumber){
+				StartCoroutine(SetArms(12, 60));//3:25pm
+				APMplate.renderer.material.SetTexture("_MainTex", blank);
+				lastQuestion = questionNumber;
+			}
+			Question("Question 1:\nWhat is 1525h in the\n12-hour clock?", "3:25 pm", "1:25 pm", "3:25 am", "1:25 am", 1);
 			break;
 		case 6:
-			// The Side
 			if(lastQuestion < questionNumber){
-				StartCoroutine("PlayClip", side);
+				StartCoroutine(SetArms(12, 60));//9:20pm
+				APMplate.renderer.material.SetTexture("_MainTex", blank);
 				lastQuestion = questionNumber;
 			}
-			Question("Question 7 (BONUS):\nName the following call?", "The Still", "The Side", "The Carry On", "The General Call", 2);
+			Question("Question 1:\nWhat is 2120h in the\n12-hour clock?", "11:20 am", "9:20 pm", "9:20 am", "11:20 pm", 2);
 			break;
 		case 7:
-			Question("Question 6 (BONUS):\nWhat is the proper response upon\n\thearing the side?\n\nA - Stop what you are doing " +
-			 	"and\n\tlisten for orders.\nB - Adopt the position of attention and\n\tlisten for instructions.\nC - Continue with " +
-			 	"given orders or\n\tinstructions.\nD - Preform the proper forms of\n\trespect to the diginatires.", "A", "B", "C", "D", 4);
+			if(lastQuestion < questionNumber){
+				StartCoroutine(SetArms(12, 60));//8:55am
+				APMplate.renderer.material.SetTexture("_MainTex", blank);
+				lastQuestion = questionNumber;
+			}
+			Question("Question 1:\nWhat is 0855h in the\n12-hour clock?", "8:55 pm", "9:45 pm", "8:55 am", "7:55 am", 3);
 			break;
-		
+		case 8:
+			if(lastQuestion < questionNumber){
+				StartCoroutine(SetArms(12, 60));//2:00pm
+				APMplate.renderer.material.SetTexture("_MainTex", blank);
+				lastQuestion = questionNumber;
+			}
+			Question("Question 1:\nWhat is 1400h in the\n12-hour clock?", "2:00 pm", "1:00 pm", "3:00 am", "1:00 am", 1);
+			break;
+		case 9:
+			if(lastQuestion < questionNumber){
+				StartCoroutine(SetArms(12, 60));//6:40pm
+				APMplate.renderer.material.SetTexture("_MainTex", blank);
+				lastQuestion = questionNumber;
+			}
+			Question("Question 1:\nWhat is 1840h in the\n12-hour clock?", "7:40 am", "7:40 pm", "6:40 am", "6:40 pm", 4);
+			break;
 		default:
 			Finish();
 			break;
@@ -247,8 +303,21 @@ public class BoatswainCallQuestions : MonoBehaviour {
 	}
 	
 	//Called at the beginnig of a new question to play a call.
-	IEnumerator PlayClip(AudioClip clip){
-		yield return new WaitForSeconds(0.2f);
-		audio.PlayOneShot(clip);
+	IEnumerator SetArms(int hour, int min){
+		//TODO set arms location
+		float angle = ((((hour%12)-9)*-1));
+		if(angle < 0)
+			angle = 12+angle;
+		angle *=30;
+		//set hour angle
+		hourArmAngle = angle;
+		
+		angle = ((((min/5)-9)*-1));
+		if(angle < 0)
+			angle = 12+angle;
+		angle *=30;
+		//set minute angle
+		minArmAngle = angle;
+		yield return new WaitForSeconds(0.01f);
 	}
 }
