@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class ClockQuestions : MonoBehaviour {
+public class SemaphoreQuestions : MonoBehaviour {
 
 	//station UID
 	public readonly int stationID = 3;
@@ -44,20 +44,14 @@ public class ClockQuestions : MonoBehaviour {
 	private bool isLocked;
 	
 	//Arms
-	private GameObject minArm;
-	private GameObject hourArm;
-	private float minArmAngle;
-	private float hourArmAngle;
+	private GameObject LeftArm;
+	private GameObject RightArm;
+	private float LArmAngle;
+	private float RArmAngle;
 	//private readonly float smooth = 0.01f;
 	//private readonly float angleTollerance = 10.0f;
 	
-	//plate
-	public Texture2D am;
-	public Texture2D pm;
-	public Texture2D blank;
-	private GameObject APMplate;
-		
-	// Use this for initialization
+		// Use this for initialization
 	void Start () {		
 		//init locks
 		doOnce = true;
@@ -79,11 +73,10 @@ public class ClockQuestions : MonoBehaviour {
 		style.fontSize = 18;
 		style.normal.textColor = Color.white;
 		//init arms
-		minArm = GameObject.Find("ClockArmMin");
-		hourArm = GameObject.Find("ClockArmHour");
-		APMplate = GameObject.Find("APMplate");
-		minArmAngle = 90.0f;
-		hourArmAngle = 270.0f;
+		LeftArm = GameObject.Find("Left_Arm");
+		RightArm = GameObject.Find("Right_Arm");
+		LArmAngle = 90.0f;
+		RArmAngle = 270.0f;
 	}
 	
 	// Update is called once per frame
@@ -101,11 +94,11 @@ public class ClockQuestions : MonoBehaviour {
 		
 		
 		//move min arm
-		Vector3 angle = new Vector3(minArmAngle, 110, 0);
-		minArm.transform.eulerAngles = angle;
+		Vector3 angle = new Vector3(RArmAngle, 110, 0);
+		RightArm.transform.eulerAngles = angle;
 		//moce hour arm
-		angle.x = hourArmAngle;
-		hourArm.transform.eulerAngles = angle;
+		angle.x = LArmAngle;
+		LeftArm.transform.eulerAngles = angle;
 		
 	}
 	
@@ -115,82 +108,9 @@ public class ClockQuestions : MonoBehaviour {
 		case 0://---------------------------------------------------Need AM/PM
 			if(lastQuestion < questionNumber){
 				SetArms(13, 30);
-				APMplate.renderer.material.SetTexture("_MainTex", pm);
 				lastQuestion = questionNumber;
 			}
 			Question("Question 1:\nWhat is the displayed time in the\n24-hour clock?", "1230h", "1330h", "1300h", "1100h", 2);
-			break;
-		case 1:
-			if(lastQuestion < questionNumber){
-				SetArms(20, 55);
-				APMplate.renderer.material.SetTexture("_MainTex", pm);
-				lastQuestion = questionNumber;
-			}
-			Question("Question 1:\nWhat is the displayed time in the\n24-hour clock?", "0855h", "2035h", "0825h", "2055h", 4);
-			break;
-		case 2:
-			if(lastQuestion < questionNumber){
-				SetArms(1, 20);
-				APMplate.renderer.material.SetTexture("_MainTex", am);
-				lastQuestion = questionNumber;
-			}
-			Question("Question 1:\nWhat is the displayed time in the\n24-hour clock?", "0140h", "1320h", "0120h", "1200h", 3);
-			break;
-		case 3:
-			if(lastQuestion < questionNumber){
-				SetArms(6, 45);
-				APMplate.renderer.material.SetTexture("_MainTex", am);
-				lastQuestion = questionNumber;
-			}
-			Question("Question 1:\nWhat is the displayed time in the\n24-hour clock?", "0645h", "1845h", "1940h", "0700h", 1);
-			break;
-		case 4:
-			if(lastQuestion < questionNumber){
-				SetArms(18, 15);
-				APMplate.renderer.material.SetTexture("_MainTex", pm);
-				lastQuestion = questionNumber;
-			}
-			Question("Question 1:\nWhat is the displayed time in the\n24-hour clock?", "0515h", "0615h", "0710h", "1815h", 4);
-			break;
-		case 5://----------------------------------------------------Do more for these questions?
-			if(lastQuestion < questionNumber){
-				SetArms(12, 60);//3:25pm
-				APMplate.renderer.material.SetTexture("_MainTex", blank);
-				lastQuestion = questionNumber;
-			}
-			Question("Question 1:\nWhat is 1525h in the\n12-hour clock?", "3:25 pm", "1:25 pm", "3:25 am", "1:25 am", 1);
-			break;
-		case 6:
-			if(lastQuestion < questionNumber){
-				SetArms(12, 60);//9:20pm
-				APMplate.renderer.material.SetTexture("_MainTex", blank);
-				lastQuestion = questionNumber;
-			}
-			Question("Question 1:\nWhat is 2120h in the\n12-hour clock?", "11:20 am", "9:20 pm", "9:20 am", "11:20 pm", 2);
-			break;
-		case 7:
-			if(lastQuestion < questionNumber){
-				SetArms(12, 60);//8:55am
-				APMplate.renderer.material.SetTexture("_MainTex", blank);
-				lastQuestion = questionNumber;
-			}
-			Question("Question 1:\nWhat is 0855h in the\n12-hour clock?", "8:55 pm", "9:45 pm", "8:55 am", "7:55 am", 3);
-			break;
-		case 8:
-			if(lastQuestion < questionNumber){
-				SetArms(12, 60);//2:00pm
-				APMplate.renderer.material.SetTexture("_MainTex", blank);
-				lastQuestion = questionNumber;
-			}
-			Question("Question 1:\nWhat is 1400h in the\n12-hour clock?", "2:00 pm", "1:00 pm", "3:00 am", "1:00 am", 1);
-			break;
-		case 9:
-			if(lastQuestion < questionNumber){
-				SetArms(12, 60);//6:40pm
-				APMplate.renderer.material.SetTexture("_MainTex", blank);
-				lastQuestion = questionNumber;
-			}
-			Question("Question 1:\nWhat is 1840h in the\n12-hour clock?", "7:40 am", "7:40 pm", "6:40 am", "6:40 pm", 4);
 			break;
 		default:
 			Finish();
@@ -305,20 +225,7 @@ public class ClockQuestions : MonoBehaviour {
 	}
 	
 	//Called at the beginnig of a new question to play a call.
-	void SetArms(int hour, int min){
+	void SetArms(int Left, int Right){
 		//TODO set arms location
-		float angle = ((((hour%12)-9)*-1));
-		if(angle < 0)
-			angle = 12+angle;
-		angle *=30;
-		//set hour angle
-		hourArmAngle = angle;
-		
-		angle = ((((min/5)-9)*-1));
-		if(angle < 0)
-			angle = 12+angle;
-		angle *=30;
-		//set minute angle
-		minArmAngle = angle;
 	}
 }
