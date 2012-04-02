@@ -3,6 +3,8 @@ using System.Collections;
 using System;
 public class flagSetter : MonoBehaviour {
 	
+	public GUITexture checkmark;
+	public GUITexture xmark;
 	public readonly int stationID = 5;
 	
 	// HUD
@@ -33,10 +35,15 @@ public class flagSetter : MonoBehaviour {
 	private Rect playArea;
 	private int correctAnswer = -1;
 	private String answerText = "";
+	private Rect buttonQuitNorm;
+	public Rect buttonQuit;
 	
 	//Question state
 	int questionNumber;
 	readonly int numberOfQuestions = 10;
+	
+	//Style for labels
+	private GUIStyle style = new GUIStyle();
 	
 	int numCorrect;
 	
@@ -101,6 +108,9 @@ public class flagSetter : MonoBehaviour {
 		button2Norm = new Rect(button2.x * playArea.width, button2.y * playArea.height, button2.width * playArea.width, button2.height * playArea.height);
 		button3Norm = new Rect(button3.x * playArea.width, button3.y * playArea.height, button3.width * playArea.width, button3.height * playArea.height);
 		button4Norm = new Rect(button4.x * playArea.width, button4.y * playArea.height, button4.width * playArea.width, button4.height * playArea.height);
+		buttonQuitNorm = new Rect(buttonQuit.x * playArea.width, buttonQuit.y * playArea.height, buttonQuit.width * playArea.width, buttonQuit.height * playArea.height);
+		style.fontSize = 18;
+		style.normal.textColor = Color.black;
 	}
 	
 	// Update is called once per frame
@@ -112,7 +122,7 @@ public class flagSetter : MonoBehaviour {
  		GUI.skin = menuSkin; 
 		if(questionNumber < numberOfQuestions)	{
 			Question("What is the raised flag?", answers[0], answers[1], answers[2], answers[3], correctAnswer);
-			GUI.Label(new Rect(answerNorm), "Number correct: " + numCorrect + "\nNumber Wrong: " + (questionNumber-numCorrect) + "\nPrevious Correct answer: " + answerText);
+			GUI.Label(new Rect(answerNorm), "Number correct: " + numCorrect + "\nNumber Wrong: " + (questionNumber-numCorrect) + "\nAnswer to last question: " + answerText, style);
 			
 		}
 		else {
@@ -126,18 +136,20 @@ public class flagSetter : MonoBehaviour {
 	
 	void Question(string question, string one, string two, string three, string four, int correct){
 		GUI.BeginGroup(playArea);
-		GUI.Label(new Rect(textNorm), question);
+		GUI.Label(new Rect(textNorm), question, style);
+		bool right = false;
 		if(GUI.Button(new Rect(button1Norm), one)){
 			if(correct == 0){
 				
 				numCorrect++;
+				right = true;
 				
 			}
-			
+			StartCoroutine("showFeedBack",right);
 			if(questionNumber <= numberOfQuestions){
 				answerText = answers[correct];
 				buildQuestion();
-				questionNumber++;
+				//questionNumber++;
 				
 			}
 			
@@ -146,12 +158,14 @@ public class flagSetter : MonoBehaviour {
 			if(correct == 1){
 				
 				numCorrect++;
+				right = true;
 				
 			}
+			StartCoroutine("showFeedBack",right);
 			if(questionNumber <= numberOfQuestions){
 				answerText = answers[correct];
 				buildQuestion();
-				questionNumber++;
+				//questionNumber++;
 			}
 			
 		}
@@ -159,27 +173,37 @@ public class flagSetter : MonoBehaviour {
 			if(correct == 2){
 				
 				numCorrect++;
+				right = true;
 			
 			}
+			StartCoroutine("showFeedBack",right);
 			if(questionNumber <= numberOfQuestions){
 				answerText = answers[correct];
 				buildQuestion();
-				questionNumber++;
+				//questionNumber++;
 			}
 		}
 		if(GUI.Button(new Rect(button4Norm), four)){
 			if(correct == 3){
 				
 				numCorrect++;
+				right = true;
 				
 				
 			}
+			StartCoroutine("showFeedBack",right);
 			if(questionNumber <= numberOfQuestions){
 				answerText = answers[correct];
 				buildQuestion();
-				questionNumber++;
+				//questionNumber++;
 			}
 			
+		}
+		//Quit Button
+		if(GUI.Button(new Rect(buttonQuitNorm), "Quit")){
+			//audio.Stop();
+			//audio.PlayOneShot(beep);
+			Application.LoadLevel("Menu");
 		}
 		GUI.EndGroup();	
 		
@@ -188,11 +212,22 @@ public class flagSetter : MonoBehaviour {
 	void Finish(){
 		GUI.BeginGroup(playArea);
 		int numbWrong = numberOfQuestions - numCorrect;
-		GUI.Label(new Rect(textNorm), "Number correct: " + numCorrect + "\nNumber Wrong: " + numbWrong);
+		GUI.Label(new Rect(textNorm), "Number correct: " + numCorrect + "\nNumber Wrong: " + numbWrong, style);
 		if(GUI.Button(new Rect(button4Norm), "OK")){
 			Application.LoadLevel("Menu");
 		}
 		GUI.EndGroup();
+	}
+	
+	IEnumerator showFeedBack(bool correct){
+		if(correct){
+			Instantiate(checkmark);
+		}
+		else{
+			Instantiate(xmark);
+		}
+		yield return new WaitForSeconds(1.5f);
+		questionNumber++;
 	}
 }
 
