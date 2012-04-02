@@ -6,7 +6,9 @@ public class flagSetter : MonoBehaviour {
 	public GUITexture checkmark;
 	public GUITexture xmark;
 	public readonly int stationID = 5;
-	
+	readonly int passNumber = 7;
+	private bool doOnce;
+	private bool isLocked;
 	// HUD
 	public Texture2D[] flags;
 	//public GUITexture flagGUI;
@@ -40,13 +42,14 @@ public class flagSetter : MonoBehaviour {
 	
 	//Question state
 	int questionNumber;
+	int lastQuestion = 0;
 	readonly int numberOfQuestions = 10;
 	
 	//Style for labels
 	private GUIStyle style = new GUIStyle();
 	
 	int numCorrect;
-	
+	int numbWrong;
 	static System.Random r = new System.Random();
 
     void buildQuestion()
@@ -58,6 +61,7 @@ public class flagSetter : MonoBehaviour {
 		
 		int n = r.Next() % 26;
 	    flagGUI = flags[n];
+		animation.Play("flagAnimation");
         Debug.Log(n);
 	    Debug.Log(flagnames[n]);
 		int x = r.Next() % 4;
@@ -100,8 +104,9 @@ public class flagSetter : MonoBehaviour {
 	
 		playArea = new Rect(0, 0, Screen.width, Screen.height);
 		questionNumber = 0;
-		
+		isLocked = false;
 		numCorrect = 0;
+		numbWrong = 0;
 		textNorm = new Rect(text.x * playArea.width, text.y * playArea.height, text.width * playArea.width, text.height * playArea.height);
 		answerNorm = new Rect(answer.x * playArea.width, answer.y * playArea.height, answer.width * playArea.width, answer.height * playArea.height);
 		button1Norm = new Rect(button1.x * playArea.width, button1.y * playArea.height, button1.width * playArea.width, button1.height * playArea.height);
@@ -121,8 +126,13 @@ public class flagSetter : MonoBehaviour {
 	void OnGUI(){
  		GUI.skin = menuSkin; 
 		if(questionNumber < numberOfQuestions)	{
+			if(lastQuestion < questionNumber){
+				buildQuestion();
+				lastQuestion = questionNumber;
+			}
+			
 			Question("What is the raised flag?", answers[0], answers[1], answers[2], answers[3], correctAnswer);
-			GUI.Label(new Rect(answerNorm), "Number correct: " + numCorrect + "\nNumber Wrong: " + (questionNumber-numCorrect) + "\nAnswer to last question: " + answerText, style);
+			GUI.Label(new Rect(answerNorm), "Number correct: " + numCorrect + "\nNumber Wrong: " + numbWrong + "\nAnswer to last question: " + answerText, style);
 			
 		}
 		else {
@@ -138,52 +148,64 @@ public class flagSetter : MonoBehaviour {
 		GUI.BeginGroup(playArea);
 		GUI.Label(new Rect(textNorm), question, style);
 		bool right = false;
-		if(GUI.Button(new Rect(button1Norm), one)){
+		if(GUI.Button(new Rect(button1Norm), one)&&!isLocked){
 			if(correct == 0){
 				
 				numCorrect++;
 				right = true;
 				
 			}
+			else
+				numbWrong++;
+			animation.Play("flagAnimation2");
 			StartCoroutine("showFeedBack",right);
 			if(questionNumber <= numberOfQuestions){
 				answerText = answers[correct];
-				buildQuestion();
+				
+				
 				//questionNumber++;
 				
 			}
 			
 		}
-		if(GUI.Button(new Rect(button2Norm), two)){
+		if(GUI.Button(new Rect(button2Norm), two)&&!isLocked){
 			if(correct == 1){
 				
 				numCorrect++;
 				right = true;
 				
 			}
+			else
+				numbWrong++;
+				animation.Play("flagAnimation2");
 			StartCoroutine("showFeedBack",right);
 			if(questionNumber <= numberOfQuestions){
 				answerText = answers[correct];
-				buildQuestion();
+			
+				//buildQuestion();
 				//questionNumber++;
 			}
 			
 		}
-		if(GUI.Button(new Rect(button3Norm), three)){
+		if(GUI.Button(new Rect(button3Norm), three)&&!isLocked){
 			if(correct == 2){
 				
 				numCorrect++;
 				right = true;
 			
 			}
+			else
+				numbWrong++;
+			animation.Play("flagAnimation2");
 			StartCoroutine("showFeedBack",right);
 			if(questionNumber <= numberOfQuestions){
 				answerText = answers[correct];
-				buildQuestion();
+				
+				//buildQuestion();
 				//questionNumber++;
 			}
 		}
-		if(GUI.Button(new Rect(button4Norm), four)){
+		if(GUI.Button(new Rect(button4Norm), four)&&!isLocked){
 			if(correct == 3){
 				
 				numCorrect++;
@@ -191,10 +213,14 @@ public class flagSetter : MonoBehaviour {
 				
 				
 			}
+			else
+				numbWrong++;
+			animation.Play("flagAnimation2");
 			StartCoroutine("showFeedBack",right);
 			if(questionNumber <= numberOfQuestions){
 				answerText = answers[correct];
-				buildQuestion();
+				
+				//buildQuestion();
 				//questionNumber++;
 			}
 			
@@ -211,8 +237,32 @@ public class flagSetter : MonoBehaviour {
 	
 	void Finish(){
 		GUI.BeginGroup(playArea);
-		int numbWrong = numberOfQuestions - numCorrect;
-		GUI.Label(new Rect(textNorm), "Number correct: " + numCorrect + "\nNumber Wrong: " + numbWrong, style);
+		string response;
+		
+		if(numCorrect < passNumber){
+			response = "You answered "+numCorrect+" correct and "+(numberOfQuestions - numCorrect)+"\nincorrect.\n\nYou need "+
+				passNumber+ " to pass this station.\nGood luck next time.";
+			if(doOnce){
+				if(!Player.stationStatus[stationID])
+					Player.stationStatus[stationID] = false;
+				if(Player.stationScore[stationID] < numCorrect)
+					Player.stationScore[stationID] = numCorrect;
+			}
+		}
+		else{
+			response = "You answered "+numCorrect+" correct and "+(numbWrong)+"\nincorrect.\n\nYou passed " +
+				"this station.\nGood job!!";
+			if(doOnce){
+				Player.stationStatus[stationID] = true;
+				if(Player.stationScore[stationID] < numCorrect)
+					Player.stationScore[stationID] = numCorrect;
+			}
+		}
+		if(doOnce){
+			doOnce = false;
+			//Debug.Log("Finished "+Player.stationStatus[stationID]);
+		}
+		GUI.Label(new Rect(textNorm), response, style);
 		if(GUI.Button(new Rect(button4Norm), "OK")){
 			Application.LoadLevel("Menu");
 		}
@@ -220,6 +270,7 @@ public class flagSetter : MonoBehaviour {
 	}
 	
 	IEnumerator showFeedBack(bool correct){
+		isLocked = true;
 		if(correct){
 			Instantiate(checkmark);
 		}
@@ -228,6 +279,7 @@ public class flagSetter : MonoBehaviour {
 		}
 		yield return new WaitForSeconds(1.5f);
 		questionNumber++;
+		isLocked = false;
 	}
 }
 
