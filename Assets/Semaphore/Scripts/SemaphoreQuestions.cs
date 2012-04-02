@@ -46,8 +46,12 @@ public class SemaphoreQuestions : MonoBehaviour {
 	//Arms
 	private GameObject LeftArm;
 	private GameObject RightArm;
-	private float LArmAngle;
-	private float RArmAngle;
+	private float LArmAngleX;
+	private float RArmAngleX;
+	private float LArmAngleY;
+	private float RArmAngleY;
+	private float LArmAngleZ;
+	private float RArmAngleZ;
 	//private readonly float smooth = 0.01f;
 	//private readonly float angleTollerance = 10.0f;
 	
@@ -75,43 +79,98 @@ public class SemaphoreQuestions : MonoBehaviour {
 		//init arms
 		LeftArm = GameObject.Find("Left_Arm");
 		RightArm = GameObject.Find("Right_Arm");
-		LArmAngle = 90.0f;
-		RArmAngle = 270.0f;
+		LArmAngleX = -0.0f;
+		LArmAngleY = 90.0f;
+		LArmAngleZ = 0.0f;
+		
+		RArmAngleX = -45.0f;
+		RArmAngleY = 90.0f;
+		RArmAngleZ = 0.0f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		/*
 		//move min arm
-		float rot = Mathf.LerpAngle(minArm.transform.eulerAngles.x, minArmAngle, Time.time*smooth);
-		Vector3 angle = new Vector3(rot, 110, 0);
-		minArm.transform.eulerAngles = angle;
-		//moce hour arm
-		rot = Mathf.LerpAngle(hourArm.transform.eulerAngles.x, hourArmAngle, Time.time*smooth);
-		angle.x = rot;
-		hourArm.transform.eulerAngles = angle;
-		*/
-		
-		
-		//move min arm
-		Vector3 angle = new Vector3(RArmAngle, 110, 0);
-		RightArm.transform.eulerAngles = angle;
-		//moce hour arm
-		angle.x = LArmAngle;
-		LeftArm.transform.eulerAngles = angle;
+		RightArm.transform.eulerAngles = new Vector3(RArmAngleX, RArmAngleY, RArmAngleZ);
+		//move hour arm
+		LeftArm.transform.eulerAngles = new Vector3(LArmAngleX, LArmAngleY, LArmAngleZ);
 		
 	}
 	
 	void OnGUI(){
  		GUI.skin = menuSkin; 
 		switch(questionNumber){
-		case 0://---------------------------------------------------Need AM/PM
+		case 0:
 			if(lastQuestion < questionNumber){
-				SetArms(13, 30);
+				SetArms(4, 3);
 				lastQuestion = questionNumber;
 			}
-			Question("Question 1:\nWhat is the displayed time in the\n24-hour clock?", "1230h", "1330h", "1300h", "1100h", 2);
+			Question("Question 1:\nWhat is the displayed character?", "A", "G", "M", "W", 2);
 			break;
+		case 1:
+			if(lastQuestion < questionNumber){
+				SetArms(2, 4);
+				lastQuestion = questionNumber;
+			}
+			Question("Question 2:\nWhat is the displayed character?", "H", "S", "U", "B", 4);
+			break;
+		case 2:
+			if(lastQuestion < questionNumber){
+				SetArms(1, 0);
+				lastQuestion = questionNumber;
+			}
+			Question("Question 3:\nWhat is the displayed character?", "Z", "P", "L", "T", 4);
+			break;
+		case 3:
+			if(lastQuestion < questionNumber){
+				SetArms(2, 1);
+				lastQuestion = questionNumber;
+			}
+			Question("Question 4:\nWhat is the displayed character?", "E", "W", "Q", "L", 3);
+			break;
+		case 4:
+			if(lastQuestion < questionNumber){
+				SetArms(3, 3);
+				lastQuestion = questionNumber;
+			}
+			Question("Question 5:\nWhat is the displayed character?", "A", "N", "F", "P", 2);
+			break;
+		case 5:
+			if(lastQuestion < questionNumber){
+				SetArms(2, 0);
+				lastQuestion = questionNumber;
+			}
+			Question("Question 6:\nWhat is the displayed character?", "E", "P", "W", "K", 2);
+			break;
+		case 6:
+			if(lastQuestion < questionNumber){
+				SetArms(2, 3);
+				lastQuestion = questionNumber;
+			}
+			Question("Question 7:\nWhat is the displayed character?", "Q", "Y", "D", "S", 4);
+			break;
+		case 7:
+			if(lastQuestion < questionNumber){
+				SetArms(2, 2);
+				lastQuestion = questionNumber;
+			}
+			Question("Question 8:\nWhat is the displayed character?", "R", "Y", "E", "M", 1);
+			break;
+		case 8:
+			if(lastQuestion < questionNumber){
+				SetArms(1, 2);
+				lastQuestion = questionNumber;
+			}
+			Question("Question 9:\nWhat is the displayed character?", "B", "A", "Y", "U", 3);
+			break;
+		case 9:
+			if(lastQuestion < questionNumber){
+				SetArms(1, 4);
+				lastQuestion = questionNumber;
+			}
+			Question("Question 10:\nWhat is the displayed character?", "X", "Z", "C", "N", 3);
+			break;
+			
 		default:
 			Finish();
 			break;
@@ -227,5 +286,45 @@ public class SemaphoreQuestions : MonoBehaviour {
 	//Called at the beginnig of a new question to play a call.
 	void SetArms(int Left, int Right){
 		//TODO set arms location
+		switch(Left){
+		case 0:
+			LArmAngleX = -180.0f;
+			break;
+		case 1:
+			LArmAngleX = -135.0f;
+			break;
+		case 2:
+			LArmAngleX = -90.0f;
+			break;
+		case 3:
+			LArmAngleX = -45.0f;
+			break;
+		case 4:
+			LArmAngleX = 0.0f;
+			break;
+		default:
+			LArmAngleX = 0;
+			break;
+		}
+		switch(Right){
+		case 0:
+			RArmAngleX = 0.0f;
+			break;
+		case 1:
+			RArmAngleX = -45.0f;
+			break;
+		case 2:
+			RArmAngleX = -90.0f;
+			break;
+		case 3:
+			RArmAngleX = -135.0f;
+			break;
+		case 4:
+			RArmAngleX = -180.0f;
+			break;
+		default:
+			RArmAngleX = 0;
+			break;
+		}
 	}
 }
