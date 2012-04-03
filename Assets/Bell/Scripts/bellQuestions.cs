@@ -49,6 +49,7 @@ public class bellQuestions : MonoBehaviour {
 		
 	// Use this for initialization
 	void Start () {		
+		Player.stationAttempts[stationID]++;
 		//init locks
 		doOnce = true;
 		isLocked = false;

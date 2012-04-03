@@ -99,6 +99,7 @@ public class flagSetter : MonoBehaviour {
 	}
 	
 	void Start () {
+		Player.stationAttempts[stationID]++;
 		
 		buildQuestion();
 	

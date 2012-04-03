@@ -56,7 +56,8 @@ public class SemaphoreQuestions : MonoBehaviour {
 	//private readonly float angleTollerance = 10.0f;
 	
 		// Use this for initialization
-	void Start () {		
+	void Start () {	
+		Player.stationAttempts[stationID]++;	
 		//init locks
 		doOnce = true;
 		isLocked = false;

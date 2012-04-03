@@ -101,6 +101,7 @@ public class terminologyQuestions : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {		
+		Player.stationAttempts[stationID]++;
 		//init locks
 		doOnce = true;
 		isLocked = false;

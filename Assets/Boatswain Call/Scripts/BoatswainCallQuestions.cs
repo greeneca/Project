@@ -53,6 +53,7 @@ public class BoatswainCallQuestions : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {		
+		Player.stationAttempts[stationID]++;
 		doOnce = true;
 		isLocked = false;
 		//init question vars

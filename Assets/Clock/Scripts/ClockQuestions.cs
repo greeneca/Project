@@ -58,7 +58,8 @@ public class ClockQuestions : MonoBehaviour {
 	private GameObject APMplate;
 		
 	// Use this for initialization
-	void Start () {		
+	void Start () {	
+		Player.stationAttempts[stationID]++;	
 		//init locks
 		doOnce = true;
 		isLocked = false;
@@ -278,7 +279,7 @@ public class ClockQuestions : MonoBehaviour {
 		}
 		if(doOnce){
 			doOnce = false;
-			Debug.Log("Finished "+Player.stationStatus[stationID]);
+			//Debug.Log("Finished "+Player.stationStatus[stationID]);
 		}
 		GUI.Label(new Rect(textNorm), response, style);
 		if(GUI.Button(new Rect(button4Norm), "OK")){

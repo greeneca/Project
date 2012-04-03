@@ -16,7 +16,7 @@ public class GUIScript : MonoBehaviour {
 	//Style for labels
 	private GUIStyle style = new GUIStyle();
 	//Station Text
-	private bool showText;
+	public static bool showText;
 	public static string stationText;
 	
 	// Use this for initialization
@@ -55,4 +55,5 @@ public class GUIScript : MonoBehaviour {
 		}
 		GUI.EndGroup();	
 	}
+	
 }

@@ -8,6 +8,16 @@ public class Player : MonoBehaviour {
 	public static readonly int stations = 6;
 	public static bool[] stationStatus = null;
 	public static int[] stationScore = null;
+	public static int[] stationAttempts = null;
+	
+	private static readonly string[] stationNames = {"Naval Terminology", "Boatswains Call", "Ship's Bell", "24-Hour Clock",
+		"Semaphore Flags", "Signal Flags"};
+	private static readonly string[] stationDescription = {"Match naval terms with common terms.",
+													"Identify calls and their uses.",
+													"Identify parts of a bell and the\nprocess of ringing a ship's bell.",
+													"Convert times between the 24-hour\nclock and the 12-hour clock.",
+													"Identify semaphore flag signals.",
+													"Identify siganl flags."};
 	
 	
 	// Use this for initialization
@@ -20,13 +30,15 @@ public class Player : MonoBehaviour {
 			transform.Translate(Vector3.back*10);
 			//Debug.Log(position);
 		}		
-		if(stationScore == null || stationStatus == null){
+		if(stationScore == null || stationStatus == null || stationAttempts == null){
 			//initialize stations
 			stationStatus = new bool[stations];
 			stationScore = new int[stations];
+			stationAttempts = new int[stations];
 			for(int i = 0; i < stations; i++){
 				stationStatus[i] = false;
 				stationScore[i] = -1;
+				stationAttempts[i] = 0;
 			}
 		}
 	}
@@ -53,5 +65,13 @@ public class Player : MonoBehaviour {
 				complete++;
 		}
 		return complete;
+	}	
+	public static void setGUITextFor(int id){
+		GUIScript.stationText = stationNames[id]+":\n\n"+stationDescription[id]+"\n\nComplete: "+stationStatus[id]
+			+"\nAttempts: "+stationAttempts[id]+"\nScore: "+stationScore[id];
+		GUIScript.showText = true;
+	}
+	public static void resetGUIText(){
+		GUIScript.showText = false;
 	}
 }
