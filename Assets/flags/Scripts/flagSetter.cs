@@ -105,6 +105,7 @@ public class flagSetter : MonoBehaviour {
 		playArea = new Rect(0, 0, Screen.width, Screen.height);
 		questionNumber = 0;
 		isLocked = false;
+		doOnce = true;
 		numCorrect = 0;
 		numbWrong = 0;
 		textNorm = new Rect(text.x * playArea.width, text.y * playArea.height, text.width * playArea.width, text.height * playArea.height);
@@ -236,6 +237,7 @@ public class flagSetter : MonoBehaviour {
 	}
 	
 	void Finish(){
+		
 		GUI.BeginGroup(playArea);
 		string response;
 		
@@ -250,7 +252,7 @@ public class flagSetter : MonoBehaviour {
 			}
 		}
 		else{
-			response = "You answered "+numCorrect+" correct and "+(numbWrong)+"\nincorrect.\n\nYou passed " +
+			response = "You answered "+numCorrect+" correct and "+(numberOfQuestions - numCorrect)+"\nincorrect.\n\nYou passed " +
 				"this station.\nGood job!!";
 			if(doOnce){
 				Player.stationStatus[stationID] = true;
@@ -264,6 +266,7 @@ public class flagSetter : MonoBehaviour {
 		}
 		GUI.Label(new Rect(textNorm), response, style);
 		if(GUI.Button(new Rect(button4Norm), "OK")){
+			audio.PlayOneShot(beep);
 			Application.LoadLevel("Menu");
 		}
 		GUI.EndGroup();
