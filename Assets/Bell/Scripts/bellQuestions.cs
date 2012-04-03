@@ -10,6 +10,11 @@ public class bellQuestions : MonoBehaviour {
 	public GUITexture checkmark;
 	public GUITexture xmark;
 	
+
+	public GUITexture arrow1;
+	public GUITexture arrow2;
+	public GUITexture arrow3;
+	
 	//GUI Stuff
 	public AudioClip beep;
 	public GUISkin menuSkin;
@@ -42,6 +47,7 @@ public class bellQuestions : MonoBehaviour {
 	//Locks
 	private bool doOnce;
 	private bool isLocked;
+	private bool arrowLock;
 	
 	
 	
@@ -52,6 +58,7 @@ public class bellQuestions : MonoBehaviour {
 		//init locks
 		doOnce = true;
 		isLocked = false;
+		arrowLock = false;
 		//init question vars
 		questionNumber = 0;
 		lastQuestion = -1;
@@ -84,10 +91,14 @@ public class bellQuestions : MonoBehaviour {
  		GUI.skin = menuSkin; 
 		switch(questionNumber){
 		case 0:
+			
+			//Debug.Log("Question 1");
 			if(lastQuestion < questionNumber){
 				
 				lastQuestion = questionNumber;
 			}
+			if(!arrowLock)
+			StartCoroutine("displayArrow",1);
 			Question("Question 1: \nWhat is this part of the bell?", "Bell", "Clapper", "Bell Rope", "Frame", 1);
 			break;
 		case 1:
@@ -95,6 +106,7 @@ public class bellQuestions : MonoBehaviour {
 				
 				lastQuestion = questionNumber;
 			}
+			displayArrow(3);
 			Question("Question 2:\nWhat is this part of the bell?", "Bell", "Clapper", "Bell Rope", "Frame", 3);
 			break;
 		case 2:
@@ -102,6 +114,7 @@ public class bellQuestions : MonoBehaviour {
 				
 				lastQuestion = questionNumber;
 			}
+			displayArrow(3);
 			Question("Question 3:\nWhat is this part of the bell?", "Bell", "Clapper", "Bell Rope", "Frame", 2);
 			break;
 		case 3:
@@ -259,6 +272,21 @@ public class bellQuestions : MonoBehaviour {
 		questionNumber++;
 		isLocked = false;
 	}
+	
+	IEnumerator displayArrow(int question){
+		arrowLock = true;
+		    //Debug.Log("called");
+			if(question == 1)
+					Instantiate(arrow1);
+			else if(question == 2)
+					Instantiate(arrow2);
+			else if(question == 3)		
+					Instantiate(arrow3);
+				
+		yield return new WaitForSeconds(0f);
+		
+	}
+	
 	
 	
 }
