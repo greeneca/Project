@@ -98,24 +98,34 @@ public class bellQuestions : MonoBehaviour {
 				
 				lastQuestion = questionNumber;
 			}
-			if(!arrowLock)
+			if(!arrowLock && questionNumber == 0)
 			StartCoroutine("displayArrow",1);
+			
 			Question("Question 1: \nWhat is this part of the bell?", "Bell", "Clapper", "Bell Rope", "Frame", 1);
 			break;
 		case 1:
+			Destroy(GameObject.Find("arrow1(Clone)"));
+			
+			if(!arrowLock && questionNumber == 1)
+			StartCoroutine("displayArrow",2);
 			if(lastQuestion < questionNumber){
 				
 				lastQuestion = questionNumber;
 			}
-			displayArrow(3);
+			
+			Destroy(GameObject.Find("arrow2(Clone)"));
+			arrowLock = false;
+			if(!arrowLock && questionNumber == 2)
+			StartCoroutine("displayArrow",3);
 			Question("Question 2:\nWhat is this part of the bell?", "Bell", "Clapper", "Bell Rope", "Frame", 3);
 			break;
 		case 2:
+			Destroy(GameObject.Find("arrow3(Clone)"));
 			if(lastQuestion < questionNumber){
 				
 				lastQuestion = questionNumber;
 			}
-			displayArrow(3);
+			
 			Question("Question 3:\nWhat is this part of the bell?", "Bell", "Clapper", "Bell Rope", "Frame", 2);
 			break;
 		case 3:
@@ -285,7 +295,7 @@ public class bellQuestions : MonoBehaviour {
 					Instantiate(arrow3);
 				
 		yield return new WaitForSeconds(0f);
-		
+		//arrowLock = false;
 	}
 	
 	
