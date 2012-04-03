@@ -16,7 +16,7 @@ public class GUIScript : MonoBehaviour {
 	//Style for labels
 	private GUIStyle style = new GUIStyle();
 	//Station Text
-	private bool showText;
+	public static bool showText;
 	public static string stationText;
 	
 	// Use this for initialization
@@ -51,9 +51,9 @@ public class GUIScript : MonoBehaviour {
 		if(GUI.Button(new Rect(buttonQuitNorm), "Quit")){
 			audio.Stop();
 			audio.PlayOneShot(beep);
-			//Application.LoadLevel("Menu");
-			Application.Quit();
+			Application.LoadLevel("MainMenu");
 		}
 		GUI.EndGroup();	
 	}
+	
 }
