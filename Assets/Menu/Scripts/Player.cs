@@ -4,6 +4,7 @@ using System.Collections;
 public class Player : MonoBehaviour {
 	
 	static Vector3 position = new Vector3(0, 0, 0);
+	static Quaternion rotation = new Quaternion(0, 0, 0, 0);
 	public static readonly int stations = 6;
 	public static bool[] stationStatus = null;
 	public static int[] stationScore = null;
@@ -14,7 +15,8 @@ public class Player : MonoBehaviour {
 		//reset position
 		if(position.x != 0 && position.y != 0 && position.z != 0){
 			transform.position = position;
-			transform.Translate(new Vector3(0, 0, -10));
+			transform.rotation = rotation;
+			transform.Translate(Vector3.back*10);
 			//Debug.Log(position);
 		}		
 		if(stationScore == null || stationStatus == null){
@@ -30,9 +32,15 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//update postion
 		position.x = transform.position.x;
 		position.y = transform.position.y;
 		position.z = transform.position.z;
+		//update rotation
+		rotation.x = transform.rotation.x;
+		rotation.y = transform.rotation.y;
+		rotation.z = transform.rotation.z;
+		rotation.w = transform.rotation.w;
 		//Debug.Log(stationStatus[1]);
 	}
 	

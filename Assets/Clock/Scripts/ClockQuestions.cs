@@ -278,7 +278,7 @@ public class ClockQuestions : MonoBehaviour {
 		}
 		if(doOnce){
 			doOnce = false;
-			//Debug.Log("Finished "+Player.stationStatus[stationID]);
+			Debug.Log("Finished "+Player.stationStatus[stationID]);
 		}
 		GUI.Label(new Rect(textNorm), response, style);
 		if(GUI.Button(new Rect(button4Norm), "OK")){

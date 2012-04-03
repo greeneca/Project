@@ -51,8 +51,7 @@ public class GUIScript : MonoBehaviour {
 		if(GUI.Button(new Rect(buttonQuitNorm), "Quit")){
 			audio.Stop();
 			audio.PlayOneShot(beep);
-			//Application.LoadLevel("Menu");
-			Application.Quit();
+			Application.LoadLevel("MainMenu");
 		}
 		GUI.EndGroup();	
 	}
