@@ -95,34 +95,28 @@ public class bellQuestions : MonoBehaviour {
 			
 			//Debug.Log("Question 1");
 			if(lastQuestion < questionNumber){
-				
+				StartCoroutine("displayArrow",1);
 				lastQuestion = questionNumber;
 			}
-			if(!arrowLock && questionNumber == 0)
-			StartCoroutine("displayArrow",1);
-			
 			Question("Question 1: \nWhat is this part of the bell?", "Bell", "Clapper", "Bell Rope", "Frame", 1);
 			break;
 		case 1:
 			Destroy(GameObject.Find("arrow1(Clone)"));
 			
-			if(!arrowLock && questionNumber == 1)
-			StartCoroutine("displayArrow",2);
 			if(lastQuestion < questionNumber){
-				
+				StartCoroutine("displayArrow",2);
 				lastQuestion = questionNumber;
 			}
 			
-			Destroy(GameObject.Find("arrow2(Clone)"));
 			arrowLock = false;
 			if(!arrowLock && questionNumber == 2)
 			StartCoroutine("displayArrow",3);
 			Question("Question 2:\nWhat is this part of the bell?", "Bell", "Clapper", "Bell Rope", "Frame", 3);
 			break;
 		case 2:
-			Destroy(GameObject.Find("arrow3(Clone)"));
 			if(lastQuestion < questionNumber){
-				
+				Destroy(GameObject.Find("arrow2(Clone)"));
+				StartCoroutine("displayArrow",3);
 				lastQuestion = questionNumber;
 			}
 			
@@ -131,6 +125,7 @@ public class bellQuestions : MonoBehaviour {
 		case 3:
 			if(lastQuestion < questionNumber){
 				
+				Destroy(GameObject.Find("arrow3(Clone)"));
 				lastQuestion = questionNumber;
 			}
 			Question("Question 4:\nIf the time were 1100, would an even or odd number \nof bells be rung?", "", "Odd", "Even", "", 3);
