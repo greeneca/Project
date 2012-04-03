@@ -6,7 +6,7 @@ public class Achievement : MonoBehaviour {
 	public GUIText theText;
 	// Use this for initialization
 	void Start () {
-	
+		//theText.text = text;
 	}
 	
 	// Update is called once per frame
@@ -14,11 +14,7 @@ public class Achievement : MonoBehaviour {
 	
 	}
 	
-	void SetText(string text){
-		theText.text = text;
-	}
-	
 	void DestroyMe(){
-		Destroy(gameObject);
+		//Destroy(gameObject);
 	}
 }
