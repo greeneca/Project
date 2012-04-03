@@ -16,6 +16,7 @@ public class Player : MonoBehaviour {
 		if(position.x != 0 && position.y != 0 && position.z != 0){
 			transform.position = position;
 			transform.rotation = rotation;
+			transform.Translate(Vector3.up*2);
 			transform.Translate(Vector3.back*10);
 			//Debug.Log(position);
 		}		
