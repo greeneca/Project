@@ -1,12 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
-public class Achievement : MonoBehaviour {
-	
-	public GUIText theText;
+public class TextScript : MonoBehaviour {
+
 	// Use this for initialization
 	void Start () {
-		//theText.text = text;
+	
 	}
 	
 	// Update is called once per frame
@@ -14,7 +13,7 @@ public class Achievement : MonoBehaviour {
 	
 	}
 	
-	void DestroyMe(){
-		Destroy(gameObject);
+	void setText(string newText){
+		gameObject.guiText.text = newText;
 	}
 }

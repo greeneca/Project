@@ -27,7 +27,7 @@ public class GUIScript : MonoBehaviour {
 		buttonQuitNorm = new Rect(buttonQuit.x * playArea.width, buttonQuit.y * playArea.height, buttonQuit.width * playArea.width, buttonQuit.height * playArea.height);
 		//init style
 		style.fontSize = 18;
-		style.normal.textColor = Color.red;
+		style.normal.textColor = Color.blue;
 		//init station text
 		showText = false;
 		stationText = "";
@@ -44,9 +44,9 @@ public class GUIScript : MonoBehaviour {
 		GUI.BeginGroup(playArea);
 		//Station Text
 		if(showText)
-			GUI.Label(new Rect(textNorm), stationText, style);
+		GUI.TextArea(new Rect(textNorm), stationText);//, style);
 		//Games Score
-		GUI.Label(new Rect(scoreNorm), scoreText, style);
+		GUI.TextArea(new Rect(scoreNorm), scoreText);//, style);
 		//Quit Button
 		if(GUI.Button(new Rect(buttonQuitNorm), "Quit")){
 			audio.Stop();

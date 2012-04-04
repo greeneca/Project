@@ -4,7 +4,7 @@ using System.Collections;
 public class SemaphoreQuestions : MonoBehaviour {
 
 	//station UID
-	public readonly int stationID = 3;
+	public readonly int stationID = 4;
 	
 	//Feedback
 	public GUITexture checkmark;

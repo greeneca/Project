@@ -3,14 +3,15 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 	
+	//Position
 	static Vector3 position = new Vector3(0, 0, 0);
 	static Quaternion rotation = new Quaternion(0, 0, 0, 0);
+	
+	//Stations
 	public static readonly int stations = 6;
-	public static readonly int achievementNum = 1;
 	public static bool[] stationStatus = null;
 	public static int[] stationScore = null;
 	public static int[] stationAttempts = null;
-	
 	private static readonly string[] stationNames = {"Naval Terminology", "Boatswains Call", "Ship's Bell", "24-Hour Clock",
 		"Semaphore Flags", "Signal Flags"};
 	private static readonly string[] stationDescription = {"Match naval terms with common terms.",
@@ -20,8 +21,18 @@ public class Player : MonoBehaviour {
 													"Identify semaphore flag signals.",
 													"Identify siganl flags."};
 	
+	//Achievements
+	public static readonly int achievementNum = 8;
 	public static bool[] achievements = null;
-	public static bool[] notifiedAchievements = null;
+	public static bool[] notifiedAchievements = null;	
+	private static readonly string[] achievementName = {"Knows Terminology",
+														"Knows the Pipes",
+														"Knows the Bells",
+														"Knows the Time",
+														"Knows Semaphore",
+														"Knows the Flags",
+														"Knows Something",
+														"11th Times the Charm"};
 	
 	public GameObject achievePrefab;
 	
@@ -45,13 +56,13 @@ public class Player : MonoBehaviour {
 			notifiedAchievements = new bool[achievementNum];
 			for(int i = 0; i < stations; i++){
 				stationStatus[i] = false;
-				stationScore[i] = -1;
+				stationScore[i] = 0;
 				stationAttempts[i] = 0;
 			}
 			for(int i = 0; i < achievementNum; i++){
 				achievements[i] = false;
 				notifiedAchievements[i] = false;
-			}
+		}
 		}
 	}
 	
@@ -66,16 +77,32 @@ public class Player : MonoBehaviour {
 		rotation.y = transform.rotation.y;
 		rotation.z = transform.rotation.z;
 		rotation.w = transform.rotation.w;
-		//Debug.Log(stationStatus[1]);
 		
-		//check notification
-		for(int i = 0; i < achievementNum; i++){
-			if(achievements[i] && !notifiedAchievements[i]){
-				notifiedAchievements[i] = true;
-				//Achievement ach = Instantiate(achievePrefab, "Viewed a Station") as Achievement;
-				//ach.theText.text = "Viewed a Station";
+		//Test stations
+		for(int i = 0; i < stations; i++){
+			if(stationStatus[i])
+				achievements[i] = true;
+		}
+		
+		if(!achievements[6]){//Test for a station finished
+			for(int i = 0; i < stations; i++){
+				if(stationStatus[i]){
+					//achievements[6] = true;
+					break;
+				}
 			}
 		}
+		if(!achievements[7]){//Test for 10 station attemps
+			int count = 0;
+			for(int i = 0; i < stations; i++){
+				count += stationAttempts[i];
+			}
+			//if(count >= 10)
+				//achievements[7] = true;
+		}
+		
+		//check notification
+		StartCoroutine("notifications");
 	}
 	
 	public static int stationsComplete(){
@@ -91,9 +118,23 @@ public class Player : MonoBehaviour {
 		GUIScript.stationText = stationNames[id]+":\n\n"+stationDescription[id]+"\n\nComplete: "+stationStatus[id]
 			+"\nAttempts: "+stationAttempts[id]+"\nScore: "+stationScore[id];
 		GUIScript.showText = true;
-		achievements[0] = true;
 	}
 	public static void resetGUIText(){
 		GUIScript.showText = false;
+	}
+	public static void resetPosition(){
+		position = new Vector3(0, 0, 0);
+		rotation = new Quaternion(0, 0, 0, 0);
+	}
+	
+	IEnumerator notifications(){
+		for(int i = 0; i < achievementNum; i++){
+			if(achievements[i] && !notifiedAchievements[i]){
+				notifiedAchievements[i] = true;
+				Instantiate(achievePrefab);
+				GameObject.Find("Text").SendMessage("setText", achievementName[i]);
+				yield return new WaitForSeconds(20.0f);
+			}
+		}
 	}
 }
