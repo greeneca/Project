@@ -188,7 +188,7 @@ public class bellQuestions : MonoBehaviour {
 		bool right = false;
 		//Button 1
 		if(GUI.Button(new Rect(button1Norm), one)&&!isLocked){
-			
+			audio.PlayOneShot(beep);
 			if(correct == 1){
 				right = true;
 			}
@@ -196,7 +196,7 @@ public class bellQuestions : MonoBehaviour {
 		}
 		//Button 2
 		if(GUI.Button(new Rect(button2Norm), two)&&!isLocked){
-			
+			audio.PlayOneShot(beep);
 			if(correct == 2){
 				right = true;
 			}
@@ -204,7 +204,7 @@ public class bellQuestions : MonoBehaviour {
 		}
 		//Button 3
 		if(GUI.Button(new Rect(button3Norm), three)&&!isLocked){
-			
+			audio.PlayOneShot(beep);
 			if(correct == 3){
 				right = true;
 			}
@@ -212,7 +212,7 @@ public class bellQuestions : MonoBehaviour {
 		}
 		//Button 4
 		if(GUI.Button(new Rect(button4Norm), four)&&!isLocked){
-			
+			audio.PlayOneShot(beep);
 			if(correct == 4){
 				right = true;
 			}
@@ -220,7 +220,7 @@ public class bellQuestions : MonoBehaviour {
 		}
 		//Quit Button
 		if(GUI.Button(new Rect(buttonQuitNorm), "Quit")){
-			
+			audio.PlayOneShot(beep);
 			Application.LoadLevel("Menu");
 		}
 		GUI.EndGroup();	

@@ -12,7 +12,7 @@ public class mainGUIScript : MonoBehaviour {
 	public Rect Quit;
 	//private Rect achListNorm;
 	private Rect playNorm;
-	private Rect achNorm;
+	//private Rect achNorm;
 	private Rect instNorm;
 	//private Rect quitNorm;
 	private Rect playArea;
@@ -24,7 +24,7 @@ public class mainGUIScript : MonoBehaviour {
 		playArea = new Rect(0, 0, Screen.width, Screen.height);
 		//achListNorm = new Rect(AchievementsList.x * playArea.width, AchievementsList.y * playArea.height, AchievementsList.width * playArea.width, AchievementsList.height * playArea.height);
 		playNorm = new Rect(Play.x * playArea.width, Play.y * playArea.height, Play.width * playArea.width, Play.height * playArea.height);	
-		achNorm = new Rect(Achievements.x * playArea.width, Achievements.y * playArea.height, Achievements.width * playArea.width, Achievements.height * playArea.height);
+		//achNorm = new Rect(Achievements.x * playArea.width, Achievements.y * playArea.height, Achievements.width * playArea.width, Achievements.height * playArea.height);
 		instNorm = new Rect(Instructions.x * playArea.width, Instructions.y * playArea.height, Instructions.width * playArea.width, Instructions.height * playArea.height);
 		//quitNorm = new Rect(Quit.x * playArea.width, Quit.y * playArea.height, Quit.width * playArea.width, Quit.height * playArea.height);
 		if(menuLoaded){

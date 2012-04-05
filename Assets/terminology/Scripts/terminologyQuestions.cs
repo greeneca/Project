@@ -162,7 +162,7 @@ public class terminologyQuestions : MonoBehaviour {
 		bool right = false;
 		//Button 1
 		if(GUI.Button(new Rect(button1Norm), one)&&!isLocked){
-			
+			audio.PlayOneShot(beep);
 			if(correct == 0){
 				
 				right = true;
@@ -174,7 +174,7 @@ public class terminologyQuestions : MonoBehaviour {
 		}
 		//Button 2
 		if(GUI.Button(new Rect(button2Norm), two)&&!isLocked){
-		
+			audio.PlayOneShot(beep);
 			if(correct == 1){
 		
 				right = true;
@@ -185,7 +185,7 @@ public class terminologyQuestions : MonoBehaviour {
 		}
 		//Button 3
 		if(GUI.Button(new Rect(button3Norm), three)&&!isLocked){
-			
+			audio.PlayOneShot(beep);
 			if(correct == 2){
 			
 				right = true;
@@ -196,7 +196,7 @@ public class terminologyQuestions : MonoBehaviour {
 		}
 		//Button 4
 		if(GUI.Button(new Rect(button4Norm), four)&&!isLocked){
-		
+			audio.PlayOneShot(beep);
 			if(correct == 3){
 				
 				right = true;
@@ -207,7 +207,7 @@ public class terminologyQuestions : MonoBehaviour {
 		}
 		//Quit Button
 		if(GUI.Button(new Rect(buttonQuitNorm), "Quit")){
-			
+			audio.PlayOneShot(beep);
 			Application.LoadLevel("Menu");
 		}
 		GUI.EndGroup();	

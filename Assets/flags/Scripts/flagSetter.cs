@@ -171,6 +171,7 @@ public class flagSetter : MonoBehaviour {
 			
 		}
 		if(GUI.Button(new Rect(button2Norm), two)&&!isLocked){
+			audio.PlayOneShot(beep);
 			if(correct == 1){
 				
 				numCorrect++;
@@ -190,6 +191,7 @@ public class flagSetter : MonoBehaviour {
 			
 		}
 		if(GUI.Button(new Rect(button3Norm), three)&&!isLocked){
+			audio.PlayOneShot(beep);
 			if(correct == 2){
 				
 				numCorrect++;
@@ -208,6 +210,7 @@ public class flagSetter : MonoBehaviour {
 			}
 		}
 		if(GUI.Button(new Rect(button4Norm), four)&&!isLocked){
+			audio.PlayOneShot(beep);
 			if(correct == 3){
 				
 				numCorrect++;
@@ -230,7 +233,7 @@ public class flagSetter : MonoBehaviour {
 		//Quit Button
 		if(GUI.Button(new Rect(buttonQuitNorm), "Quit")){
 			//audio.Stop();
-			//audio.PlayOneShot(beep);
+			audio.PlayOneShot(beep);
 			Application.LoadLevel("Menu");
 		}
 		GUI.EndGroup();	
